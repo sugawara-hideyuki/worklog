@@ -20,7 +20,8 @@ metadata:
   name: pvc
 spec:
   accessModes: ["ReadWriteOnce"]
-  storageClassName: ibmc-block-bronze    # 20Gi IKS
+  storageClassName: managed-nfs-storage # NFS (example)
+  #storageClassName: ibmc-block-bronze    # 20Gi IKS
   # storageClassName: gluster-heketi     # 12Gi GlusterFS
   # storageClassName: standard           # 2Gi  minikube
   resources:
