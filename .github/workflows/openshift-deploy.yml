@@ -1,0 +1,27 @@
+name: Deploy to OpenShift Sandbox
+
+on:
+  push:
+    branches: [ pre-production ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install OpenShift CLI
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: "latest"
+      
+      - name: Login to OpenShift
+        run: |
+          oc login --token=${{ env.TOKEN }}  --server=${{ env.SERVER }}
+      
+      - name: Trigger Build
+        run: |
+          NAMESPACE="tat-mi-dev"
+          oc start-build worklog-api -n ${{ env.NAMESPACE }} --follow
+          oc start-build worklog-ui -n ${{ env.NAMESPACE }} --follow
